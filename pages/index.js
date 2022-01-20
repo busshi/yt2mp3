@@ -1,13 +1,13 @@
 import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
-import { getSortedPostsData } from '../lib/posts'
+import { dirListing } from '../lib/dirListing'
 
 export async function getStaticProps() {
-  const allPostsData = getSortedPostsData()
+  const filesList = dirListing()
   return {
     props: {
-      allPostsData
+      filesList
     }
   }
 }
@@ -17,7 +17,8 @@ function Form() {
     event.preventDefault()
 
     const res = await fetch(
-      'https://www.youtube.com/results?search_query=SEARCH',
+      //'https://www.youtube.com/results?search_query=SEARCH/',
+      'http://192.168.1.150:9898/json.htm?type=command&param=getversion',
       {
         body: JSON.stringify({
           name: event.target.name.value
@@ -29,19 +30,20 @@ function Form() {
       }
     )
 
-    const result = await res.json()
+  //  const result = await res.json()
+//	console.log(result);
   }
 
   return (
     <form onChange={querySearch}>
-      <label htmlFor="yt_search">Search on YouTube: </label>
-      <input id="yt search" name="yt_search" type="text" autoComplete="yt_search" required />
-      <button type="submit">Search</button>
+      <label htmlFor="yt_dl">Paste yt link here: </label>
+      <input id="yt_dl" name="yt_dl" type="text" autoComplete="yt_dl" required />
+      <button type="submit">Convert</button>
     </form>
   )
 }
 
-export default function Home({ allPostsData }) {
+export default function Home({ filesList }) {
   return (
     <Layout home>
       <Head>
@@ -58,13 +60,9 @@ export default function Home({ allPostsData }) {
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h3 className={utilStyles.headingLg}>Results:</h3>
         <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
+          {filesList.map(({ id, filename }) => (
             <li className={utilStyles.listItem} key={id}>
-              {title}
-              <br />
-              {id}
-              <br />
-              {date}
+			{filename}
             </li>
           ))}
         </ul>
