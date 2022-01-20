@@ -13,7 +13,7 @@ export async function getStaticProps() {
 }
 
 function Form() {
-  const registerUser = async event => {
+  const querySearch = async event => {
     event.preventDefault()
 
     const res = await fetch(
@@ -33,10 +33,10 @@ function Form() {
   }
 
   return (
-    <form onSubmit={registerUser}>
-      <label htmlFor="yt_seqrch">Name</label>
+    <form onChange={querySearch}>
+      <label htmlFor="yt_search">Search on YouTube: </label>
       <input id="yt search" name="yt_search" type="text" autoComplete="yt_search" required />
-      <button type="submit">Register</button>
+      <button type="submit">Search</button>
     </form>
   )
 }
@@ -52,11 +52,11 @@ export default function Home({ allPostsData }) {
 	  </section>
 
 	  <section>
-	  	<p>Search</p>
+		<Form />
 	  </section>
 
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Results:</h2>
+        <h3 className={utilStyles.headingLg}>Results:</h3>
         <ul className={utilStyles.list}>
           {allPostsData.map(({ id, date, title }) => (
             <li className={utilStyles.listItem} key={id}>
