@@ -1,17 +1,16 @@
 import Head from 'next/head'
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
-import { getSortedPostsdata } from '../lib/posts'
+import { getSortedPostsData } from '../lib/posts'
 
 export async function getStaticProps() {
-	const allPostsdata = getSortedPostsData()
-	return {
-		props: {
-			allPostsData
-		}
-	}
+  const allPostsData = getSortedPostsData()
+  return {
+    props: {
+      allPostsData
+    }
+  }
 }
-
 export default function Home({ allPostsData }) {
   return (
     <Layout home>
@@ -21,7 +20,7 @@ export default function Home({ allPostsData }) {
       <section className={utilStyles.headingMd}>
         <p>Welcome to yt2mp3 Downloader</p>
       </section>
-	  <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Blog</h2>
         <ul className={utilStyles.list}>
           {allPostsData.map(({ id, date, title }) => (
