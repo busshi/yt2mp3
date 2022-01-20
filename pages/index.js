@@ -21,9 +21,11 @@ function Form() {
 		const value = event.target.value;
 		setInput( values => ({...values, [name]: value}))
 	}
+
   	const querySearch = async event => {
     	event.preventDefault();
-		alert(input);
+		const link = input.yt_link
+		console.log(link);;
 
   //  	const res = await fetch(
   //  	  //'https://www.youtube.com/results?search_query=SEARCH/',
@@ -45,8 +47,8 @@ function Form() {
 
   	return (
       <form onSubmit={querySearch}>
-      <label htmlFor="yt_dl">Paste yt link here: </label>
-      <input id="yt_dl" name="yt_dl" type="text" value={input.yt_dl || ""} onChange={handleChange} required/>
+      <label htmlFor="yt_link">Paste yt link here: </label>
+      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
       <button type="submit">Convert</button>
     </form>
   )
