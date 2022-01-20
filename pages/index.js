@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { useState } from "react";
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import { dirListing } from '../lib/dirListing'
@@ -13,31 +14,39 @@ export async function getStaticProps() {
 }
 
 function Form() {
-  const querySearch = async event => {
-    event.preventDefault()
+	const [input, setInput] = useState({});
 
-    const res = await fetch(
-      //'https://www.youtube.com/results?search_query=SEARCH/',
-      'http://192.168.1.150:9898/json.htm?type=command&param=getversion',
-      {
-        body: JSON.stringify({
-          name: event.target.name.value
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'POST'
-      }
-    )
+	const handleChange = (event) => {
+		const name = event.target.name;
+		const value = event.target.value;
+		setInput( values => ({...values, [name]: value}))
+	}
+  	const querySearch = async event => {
+    	event.preventDefault();
+		alert(input);
 
-  //  const result = await res.json()
-//	console.log(result);
-  }
+  //  	const res = await fetch(
+  //  	  //'https://www.youtube.com/results?search_query=SEARCH/',
+  //  	  'http://192.168.1.150:9898/json.htm?type=command&param=getversion',
+  //  	  {
+  //  	    body: JSON.stringify({
+  //  	      name: event.target.name.value
+  //  	    }),
+  // 	    headers: {
+  //  	      'Content-Type': 'application/json'
+  //  	    },
+  //  	    method: 'POST'
+  //  	  }
+  //  	)
+	//console.log(yt_dl);
+	//    const result = await res.json()
+	//	console.log(result);
+	}
 
-  return (
-    <form onChange={querySearch}>
+  	return (
+      <form onSubmit={querySearch}>
       <label htmlFor="yt_dl">Paste yt link here: </label>
-      <input id="yt_dl" name="yt_dl" type="text" autoComplete="yt_dl" required />
+      <input id="yt_dl" name="yt_dl" type="text" value={input.yt_dl || ""} onChange={handleChange} required/>
       <button type="submit">Convert</button>
     </form>
   )
