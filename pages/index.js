@@ -25,30 +25,9 @@ function Form() {
   	const querySearch = async event => {
     	event.preventDefault();
 		const link = input.yt_link
-//		console.log(link);
 		const req = await fetch(`/api/search?link=${link}`)
 		const res = await req.json()
-//		console.log(res);
-
-//		const {spawn} = require('child_process');
-//		const child = spawn('python3', ['../scripts/yt2mp3.py', {link}]);
-
-  //  	const res = await fetch(
-  //  	  //'https://www.youtube.com/results?search_query=SEARCH/',
-  //  	  'http://192.168.1.150:9898/json.htm?type=command&param=getversion',
-  //  	  {
-  //  	    body: JSON.stringify({
-  //  	      name: event.target.name.value
-  //  	    }),
-  // 	    headers: {
-  //  	      'Content-Type': 'application/json'
-  //  	    },
-  //  	    method: 'POST'
-  //  	  }
-  //  	)
-	//console.log(yt_dl);
-	//    const result = await res.json()
-	//	console.log(result);
+		console.log(res);
 	}
 
   	return (
@@ -75,11 +54,11 @@ export default function Home({ filesList }) {
 	  </section>
 
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h3 className={utilStyles.headingLg}>Results:</h3>
+        <h3 className={utilStyles.headingLg}>Previous links still available:</h3>
         <ul className={utilStyles.list}>
-          {filesList.map(({ id, filename }) => (
+          {filesList.map(({ id, dlPath, filename }) => (
             <li className={utilStyles.listItem} key={id}>
-			{filename}
+			<a href={dlPath}>{filename}</a>
             </li>
           ))}
         </ul>

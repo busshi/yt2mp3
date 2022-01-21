@@ -13,12 +13,12 @@ options = {
 }
 
 def move():
-	print('[+] Moving downloaded file to yt/')
+	print('[+] Moving downloaded file to public/yt/')
 	files = glob.glob('/Users/busshi/Documents/Projets Github/www/yt2mp3/*mp3')
 	
 	for file in files:
 		print ('Moving file ', file);
-		shutil.move(file, '/Users/busshi/Documents/Projets Github/www/yt2mp3/yt/')
+		shutil.move(file, '/Users/busshi/Documents/Projets Github/www/yt2mp3/public/yt/')
 
 
 if __name__ == "__main__":
