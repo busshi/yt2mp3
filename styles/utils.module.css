@@ -21,3 +21,13 @@
 	color: red;
 	background-color: white;
 }
+
+.buttonPwn {
+	color: white;
+	background-color: black;
+}
+
+.buttonPwn:hover {
+	color: black;
+	background-color: white;
+}

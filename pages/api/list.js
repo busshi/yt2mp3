@@ -1,6 +1,7 @@
 export default function handler(req, res) {
 
-	const filesList = ['1', '2'];
+	var fs = require('fs');
+	var files = fs.readdirSync('public/yt/');
 
-	res.status(200).json({files: filesList})
+	res.status(200).json({available_links: files})
 }

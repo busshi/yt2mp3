@@ -35,15 +35,26 @@ function Form() {
 
   	const querySearch = async event => {
     	event.preventDefault();
-		const link = input.yt_linki;
-		const req = await fetch(`/api/search?link=${link}`);
+		const link = input.yt_link;
+		const req = await fetch('/api/search', {
+    		method: 'POST',
+    		mode: 'cors',
+    		cache: 'no-cache',
+    		credentials: 'same-origin',
+    		headers: {
+    		  'Content-Type': 'application/json'
+    		},
+    		redirect: 'follow',
+    		referrerPolicy: 'no-referrer',
+    		body: JSON.stringify({link})
+  		});
 		const res = await req.json();
 		console.log(res);
 		state = res.state;
 	}
   	return (
       <form onSubmit={querySearch}>
-      <label htmlFor="yt_link">Paste yt link here: </label>
+      <label htmlFor="yt_link">Past yt link here: </label>
       <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
       <button className={utilStyles.button} type="submit">Convert</button>
     </form>
@@ -76,6 +87,7 @@ export default function Home({ filesList }) {
           ))}
         </ul>
       </section>
+
     </Layout>
   )
 }
