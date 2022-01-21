@@ -19,7 +19,8 @@ def move():
 	
 	for file in files:
 		pos = file.rfind('-')
-		newname = file[:pos] + file[-4:]
+		tmp = file[:pos] + file[-4:]
+		newname = tmp.replace(" (Clip Officiel)", "")
 		print ('[+] Renaming file ', file, ' -> ', newname)
 		os.rename(file, newname)
 		print ('[+] Moving file ', newname);

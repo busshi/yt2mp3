@@ -52,15 +52,15 @@ export default function Home({ filesList }) {
         <h2>Welcome to yt2mp3 Downloader</h2>
 	  </section>
 
-	  <section>
+	  <section className={utilStyles.section}>
 		<Form />
 	  </section>
 
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h3 className={utilStyles.headingLg}>Previous links still available:</h3>
-        <ul className={utilStyles.list}>
+      <section className={utilStyles.section}>
+        <h3><br/>Previous links:</h3>
+        <ul className={utilStyles.link}>
           {filesList.map(({ id, dlPath, filename }) => (
-            <li className={utilStyles.listItem} key={id}>
+            <li className={utilStyles.link} key={id}>
 			<a href={dlPath}>{filename}</a>
             </li>
           ))}
