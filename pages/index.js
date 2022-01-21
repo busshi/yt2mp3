@@ -25,7 +25,13 @@ function Form() {
   	const querySearch = async event => {
     	event.preventDefault();
 		const link = input.yt_link
-		console.log(link);;
+//		console.log(link);
+		const req = await fetch(`/api/search?link=${link}`)
+		const res = await req.json()
+//		console.log(res);
+
+//		const {spawn} = require('child_process');
+//		const child = spawn('python3', ['../scripts/yt2mp3.py', {link}]);
 
   //  	const res = await fetch(
   //  	  //'https://www.youtube.com/results?search_query=SEARCH/',
