@@ -28,7 +28,9 @@ function Form() {
 		const req = await fetch(`/api/search?link=${link}`)
 		const res = await req.json()
 		console.log(res);
+		const state = res.state;
 	}
+	//console.log(state);
 
   	return (
       <form onSubmit={querySearch}>
@@ -39,6 +41,7 @@ function Form() {
   )
 }
 
+
 export default function Home({ filesList }) {
   return (
     <Layout home>
@@ -46,7 +49,7 @@ export default function Home({ filesList }) {
         <title>{siteTitle}</title>
       </Head>
       <section className={utilStyles.title}>
-        <p>Welcome to yt2mp3 Downloader</p>
+        <h2>Welcome to yt2mp3 Downloader</h2>
 	  </section>
 
 	  <section>

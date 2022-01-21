@@ -13,12 +13,17 @@ options = {
 }
 
 def move():
+	workdir = os.getcwd()
 	print('[+] Moving downloaded file to public/yt/')
-	files = glob.glob('/Users/busshi/Documents/Projets Github/www/yt2mp3/*mp3')
+	files = glob.glob(workdir + '/*mp3')
 	
 	for file in files:
-		print ('Moving file ', file);
-		shutil.move(file, '/Users/busshi/Documents/Projets Github/www/yt2mp3/public/yt/')
+		pos = file.rfind('-')
+		newname = file[:pos] + file[-4:]
+		print ('[+] Renaming file ', file, ' -> ', newname)
+		os.rename(file, newname)
+		print ('[+] Moving file ', newname);
+		shutil.move(newname, workdir + '/public/yt/')
 
 
 if __name__ == "__main__":
