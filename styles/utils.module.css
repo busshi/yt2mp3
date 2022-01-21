@@ -11,3 +11,13 @@
 	margin:0;
 	padding:0;
 }
+
+.button {
+	color: white;
+	background-color: red;
+}
+
+.button:hover {
+	color: red;
+	background-color: white;
+}

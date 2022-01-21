@@ -3,18 +3,29 @@ import { useState } from "react";
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import { dirListing } from '../lib/dirListing'
+//import { checkProgress } from '../lib/checkProgress'
 
 export async function getStaticProps() {
   const filesList = dirListing()
+//  const progress = checkProgress()
   return {
     props: {
-      filesList
+      filesList,
+//	  progress
     }
   }
 }
 
+function Progress() {
+	return (<p></p>);
+//	if (state == 'in progress')
+//		return (<p>VALID</p>);
+//	else
+//		return (<p>TEST</p>);
+}
+
 function Form() {
-	const [input, setInput] = useState({});
+	const [input, setInput, state] = useState({});
 
 	const handleChange = (event) => {
 		const name = event.target.name;
@@ -24,21 +35,19 @@ function Form() {
 
   	const querySearch = async event => {
     	event.preventDefault();
-		const link = input.yt_link
-		const req = await fetch(`/api/search?link=${link}`)
-		const res = await req.json()
+		const link = input.yt_linki;
+		const req = await fetch(`/api/search?link=${link}`);
+		const res = await req.json();
 		console.log(res);
-		const state = res.state;
+		state = res.state;
 	}
-	//console.log(state);
-
   	return (
       <form onSubmit={querySearch}>
       <label htmlFor="yt_link">Paste yt link here: </label>
       <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
-      <button type="submit">Convert</button>
+      <button className={utilStyles.button} type="submit">Convert</button>
     </form>
-  )
+	)
 }
 
 
@@ -54,6 +63,7 @@ export default function Home({ filesList }) {
 
 	  <section className={utilStyles.section}>
 		<Form />
+		<Progress />
 	  </section>
 
       <section className={utilStyles.section}>
