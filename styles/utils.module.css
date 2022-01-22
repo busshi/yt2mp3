@@ -31,3 +31,19 @@
 	color: black;
 	background-color: white;
 }
+
+.success {
+	color: green;
+}
+
+.error {
+	color: red;
+}
+
+.load {
+	color: blue;
+}
+
+.wait {
+	color: black;
+}

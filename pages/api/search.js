@@ -14,10 +14,12 @@ export default function handler(req, res) {
 	});
 
 	child.on('close', (code) => {
+		var convert_status;
 		console.log(`child process exit with status code ${code}`);
 		if (code == 0)
-			res.status(200).json({link: link, state: 'converted'});
+			convert_status = 'converted';
 		else
-			res.status(200).json({link: link, state: 'not valid'});
+			convert_status = 'conversion error';
+		res.status(200).json({link: link, state: convert_status});
 	});
 }

@@ -3,8 +3,6 @@ import { useState } from "react";
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import { dirListing } from '../lib/dirListing'
-//import useSWR from 'swr';
-
 
 //export async function getStaticProps() {
 export async function getServerSideProps() {
@@ -18,19 +16,9 @@ export async function getServerSideProps() {
 }
 
 
-//const fetcher = (...args) => fetch(...args).then((res) => res.json())
-
-//function Progress() {
-  //const { data, error } = useSWR('/api/search', fetcher);
-  //if (!data) return <div>Converting...</div>
-  //if (data.state == 'not valid') return <div>Failed to load URL</div>
-  //if (data.state == 'converted') return <div>File converted... Reload the page...</div>
-
-  //return ( <div></div> )
-//}
-
 function Form() {
 	const [input, setInput, state] = useState({});
+	const [conversionState, setConversionState] = useState('waiting');
 
 	const handleChange = (event) => {
 		const name = event.target.name;
@@ -38,8 +26,8 @@ function Form() {
 		setInput( values => ({...values, [name]: value}))
 	}
 
-  	//const querySearch = async event => {
   	const querySearch = async event => {
+		setConversionState('loading');
     	event.preventDefault();
 		const link = input.yt_link;
 		const req = await fetch('/api/search', {
@@ -56,15 +44,50 @@ function Form() {
   		});
 		const res = await req.json();
 		console.log(res);
-		return res.state;
+		setConversionState(res.state);
 	}
-  	return (
-    <form onSubmit={querySearch}>
-      <label htmlFor="yt_link">Past yt link here: </label>
-      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
-      <button className={utilStyles.button} type="submit">Convert</button>
-    </form>
-	)
+
+	if (conversionState === 'waiting') {
+		return (
+	    <form onSubmit={querySearch}>
+	      <label htmlFor="yt_link">Past yt link here: </label>
+	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
+	      <button className={utilStyles.button} type="submit">Convert</button>
+		  <p className={utilStyles.wait}>Waiting for conversion... </p>
+	    </form>
+	)}
+
+	if (conversionState === 'conversion error') {
+		return (
+	    <form onSubmit={querySearch}>
+	      <label htmlFor="yt_link">Past yt link here: </label>
+	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
+	      <button className={utilStyles.button} type="submit">Convert</button>
+		<p className={utilStyles.error}>ERROR</p>
+		<p>Invalid URL, conversion error or the file already exists and the link is already available</p>
+	    </form>
+	)}
+
+	if (conversionState === 'converted') {
+		return (
+	    <form onSubmit={querySearch}>
+	      <label htmlFor="yt_link">Past yt link here: </label>
+	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
+	      <button className={utilStyles.button} type="submit">Convert</button>
+		<p className={utilStyles.success}>CONVERTED!</p>
+		<p>🔽 You can download the file(s) below 🔽</p>
+	    </form>
+	)}
+
+	if (conversionState === 'loading') {
+		return (
+	    <form onSubmit={querySearch}>
+	      <label htmlFor="yt_link">Past yt link here: </label>
+	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
+	      <button className={utilStyles.button} type="submit">Convert</button>
+		<p className={utilStyles.load}>Loading... Please wait a few seconds...</p>
+	    </form>
+	)}
 }
 
 
