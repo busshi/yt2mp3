@@ -3,26 +3,31 @@ import { useState } from "react";
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import { dirListing } from '../lib/dirListing'
-//import { checkProgress } from '../lib/checkProgress'
+//import useSWR from 'swr';
 
-export async function getStaticProps() {
+
+//export async function getStaticProps() {
+export async function getServerSideProps() {
   const filesList = dirListing()
-//  const progress = checkProgress()
   return {
     props: {
       filesList,
-//	  progress
-    }
+    },
+//	revalidate: 120,
   }
 }
 
-function Progress() {
-	return (<p></p>);
-//	if (state == 'in progress')
-//		return (<p>VALID</p>);
-//	else
-//		return (<p>TEST</p>);
-}
+
+//const fetcher = (...args) => fetch(...args).then((res) => res.json())
+
+//function Progress() {
+  //const { data, error } = useSWR('/api/search', fetcher);
+  //if (!data) return <div>Converting...</div>
+  //if (data.state == 'not valid') return <div>Failed to load URL</div>
+  //if (data.state == 'converted') return <div>File converted... Reload the page...</div>
+
+  //return ( <div></div> )
+//}
 
 function Form() {
 	const [input, setInput, state] = useState({});
@@ -33,6 +38,7 @@ function Form() {
 		setInput( values => ({...values, [name]: value}))
 	}
 
+  	//const querySearch = async event => {
   	const querySearch = async event => {
     	event.preventDefault();
 		const link = input.yt_link;
@@ -50,10 +56,10 @@ function Form() {
   		});
 		const res = await req.json();
 		console.log(res);
-		state = res.state;
+		return res.state;
 	}
   	return (
-      <form onSubmit={querySearch}>
+    <form onSubmit={querySearch}>
       <label htmlFor="yt_link">Past yt link here: </label>
       <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
       <button className={utilStyles.button} type="submit">Convert</button>
@@ -74,11 +80,10 @@ export default function Home({ filesList }) {
 
 	  <section className={utilStyles.section}>
 		<Form />
-		<Progress />
 	  </section>
 
       <section className={utilStyles.section}>
-        <h3><br/>Previous links:</h3>
+        <h3><br/>Available links:</h3>
         <ul className={utilStyles.link}>
           {filesList.map(({ id, dlPath, filename }) => (
             <li className={utilStyles.link} key={id}>
