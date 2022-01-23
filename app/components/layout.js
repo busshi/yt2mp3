@@ -5,6 +5,7 @@ import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
 
 const name = 'yt2mp3'
+const logo = '/images/logo.png'
 export const siteTitle = 'yt2mp3'
 
 export default function Layout({ children, home }) {
@@ -23,20 +24,19 @@ export default function Layout({ children, home }) {
           )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
         />
         <meta name="og:title" content={siteTitle} />
-        <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header className={styles.header}>
         {home ? (
           <>
             <Image
               priority
-              src="/images/logo.png"
-              className={utilStyles.borderCircle}
-              height={144}
-              width={144}
+              src={logo}
+              className={utilStyles.app_logo}
+              height={200}
+              width={200}
               alt={name}
             />
-            <h1 className={utilStyles.heading2Xl}>{name}</h1>
+            <h1>{name}</h1>
           </>
         ) : (
           <>
@@ -44,17 +44,17 @@ export default function Layout({ children, home }) {
               <a>
                 <Image
                   priority
-                  src="/images/logo.png"
-                  className={utilStyles.borderCircle}
+                  src={logo}
+                  className={utilStyles.app_logo}
                   height={108}
                   width={108}
                   alt={name}
                 />
               </a>
             </Link>
-            <h2 className={utilStyles.headingLg}>
+            <h2>
               <Link href="/">
-                <a className={utilStyles.colorInherit}>{name}</a>
+                <a>{name}</a>
               </Link>
             </h2>
           </>
@@ -62,7 +62,7 @@ export default function Layout({ children, home }) {
       </header>
       <main>{children}</main>
       {!home && (
-        <div className={styles.backToHome}>
+        <div>
           <Link href="/">
             <a>← Back to home</a>
           </Link>

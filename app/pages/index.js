@@ -16,7 +16,7 @@ export async function getServerSideProps() {
 }
 
 
-function Form() {
+function Form( {filesList} ) {
 	const [input, setInput] = useState({});
 	const [conversionState, setConversionState] = useState('waiting');
 	const [inputState, setInputState] = useState('waiting');
@@ -25,8 +25,10 @@ function Form() {
 		const name = event.target.name;
 		const value = event.target.value;
 		setInput( values => ({...values, [name]: value}));
-		if (value.startsWith("https://www.youtube.com/watch?v="))
+		if (value.startsWith("https://www.youtube.com/watch?v=" || "https://m.youtube.com/watch?v="))
 			setInputState('valid');
+		else if (!value)
+			setInputState('waiting');
 		else
 			setInputState('invalid');
 		setConversionState('waiting');
@@ -38,9 +40,6 @@ function Form() {
 		const link = input.yt_link;
 		const req = await fetch('/api/search', {
     		method: 'POST',
-    		mode: 'cors',
-    		cache: 'no-cache',
-    		credentials: 'same-origin',
     		headers: {
     		  'Content-Type': 'application/json'
     		},
@@ -52,37 +51,53 @@ function Form() {
 		setConversionState(res.state);
 	}
 
+//	var ClassName, msg, button;
+
 	if (conversionState === 'waiting' && inputState === 'waiting') {
+//		ClassName = 'wait';
+//		msg = 'waiting for conversion...';
+//		button = 'hide';}
 		return (
 	    <form onSubmit={querySearch}>
-	      <label htmlFor="yt_link">Past yt link here: </label>
+	      <label htmlFor="yt_link">Paste yt link here: </label>
 	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
 		  <p className={utilStyles.wait}>Waiting for conversion... </p>
 	    </form>
 	)}
 
 	if (conversionState === 'waiting' && inputState === 'valid') {
+	//	ClassName = 'none';
+	//	msg = '';
+	//	button = 'visible'; }
 		return (
 	    <form onSubmit={querySearch}>
-	      <label htmlFor="yt_link">Past yt link here: </label>
-	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
+	      <label htmlFor="yt_link">Paste yt link here: </label>
+	      <input className={utilStyles.valid_url} id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
 	      <br/><br/><button className={utilStyles.button} type="submit">Convert</button>
 	    </form>
 	)}
 
 	if (conversionState === 'waiting' && inputState === 'invalid') {
+//		ClassName = 'error';
+//		msg = 'Invalid URL';
+//		button = 'hide';}
+		var	filename = 'TEEST';
 		return (
-	    <form onSubmit={querySearch}>
-	      <label htmlFor="yt_link">Past yt link here: </label>
-	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
+  	    <form onSubmit={querySearch}>
+	      <label htmlFor="yt_link">Paste yt link here: </label>
+	      <input className={utilStyles.invalid_url} id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
 		  <p className={utilStyles.error}>Invalid URL</p>
+			<a href='ok'>{filename}</a>
 	    </form>
 	)}
 
 	if (conversionState === 'conversion error') {
+//		ClassName = 'error';
+//		msg = 'ERROR';
+//		button = 'hide';}
 		return (
 	    <form onSubmit={querySearch}>
-	      <label htmlFor="yt_link">Past yt link here: </label>
+	      <label htmlFor="yt_link">Paste yt link here: </label>
 	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
 	      <button className={utilStyles.button} type="submit">Convert</button>
 		<p className={utilStyles.error}>ERROR</p>
@@ -90,26 +105,42 @@ function Form() {
 	    </form>
 	)}
 
-	if (conversionState === 'converted') {
+	if (conversionState === 'converted')  {
+//		ClassName = 'success';
+//		msg = 'CONVERTED!';
+//		button = 'visible';}
 		return (
 	    <form onSubmit={querySearch}>
-	      <label htmlFor="yt_link">Past yt link here: </label>
+	      <label htmlFor="yt_link">Paste yt link here: </label>
 	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
 	      <button className={utilStyles.button} type="submit">Convert</button>
 		<p className={utilStyles.success}>CONVERTED!</p>
-		<p>🔽 You can download the file(s) below 🔽</p>
+		<p>Reload to display the file...</p>
+//			<a href={dlPath}>{filename}</a>
 	    </form>
 	)}
 
 	if (conversionState === 'loading') {
+//		ClassName = 'load';
+//		msg = 'Loading... Please wait a few seconds... 1 minute is a maximum.';
+//		button = 'hide';}
 		return (
 	    <form onSubmit={querySearch}>
-	      <label htmlFor="yt_link">Past yt link here: </label>
+	      <label htmlFor="yt_link">Paste yt link here: </label>
 	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
 	      <button className={utilStyles.button} type="submit">Convert</button>
 		<p className={utilStyles.load}>Loading... Please wait a few seconds... 1 minute is a maximum.</p>
 	    </form>
 	)}
+//console.log(ClassName);
+//	return (
+//	    <form onSubmit={querySearch}>
+//	      <label htmlFor="yt_link">Paste yt link here: </label>
+//	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
+//		  <p className={utilStyles.error}>{msg}</p>
+//	      <button className={utilStyles.button} type="submit" display="none">Convert</button>
+//	    </form>
+//	)
 }
 
 
