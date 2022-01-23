@@ -17,13 +17,19 @@ export async function getServerSideProps() {
 
 
 function Form() {
-	const [input, setInput, state] = useState({});
+	const [input, setInput] = useState({});
 	const [conversionState, setConversionState] = useState('waiting');
+	const [inputState, setInputState] = useState('waiting');
 
 	const handleChange = (event) => {
 		const name = event.target.name;
 		const value = event.target.value;
-		setInput( values => ({...values, [name]: value}))
+		setInput( values => ({...values, [name]: value}));
+		if (value.startsWith("https://www.youtube.com/watch?v="))
+			setInputState('valid');
+		else
+			setInputState('invalid');
+		setConversionState('waiting');
 	}
 
   	const querySearch = async event => {
@@ -43,17 +49,33 @@ function Form() {
     		body: JSON.stringify({link})
   		});
 		const res = await req.json();
-		console.log(res);
 		setConversionState(res.state);
 	}
 
-	if (conversionState === 'waiting') {
+	if (conversionState === 'waiting' && inputState === 'waiting') {
 		return (
 	    <form onSubmit={querySearch}>
 	      <label htmlFor="yt_link">Past yt link here: </label>
 	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
-	      <button className={utilStyles.button} type="submit">Convert</button>
 		  <p className={utilStyles.wait}>Waiting for conversion... </p>
+	    </form>
+	)}
+
+	if (conversionState === 'waiting' && inputState === 'valid') {
+		return (
+	    <form onSubmit={querySearch}>
+	      <label htmlFor="yt_link">Past yt link here: </label>
+	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
+	      <br/><br/><button className={utilStyles.button} type="submit">Convert</button>
+	    </form>
+	)}
+
+	if (conversionState === 'waiting' && inputState === 'invalid') {
+		return (
+	    <form onSubmit={querySearch}>
+	      <label htmlFor="yt_link">Past yt link here: </label>
+	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
+		  <p className={utilStyles.error}>Invalid URL</p>
 	    </form>
 	)}
 
@@ -64,7 +86,7 @@ function Form() {
 	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
 	      <button className={utilStyles.button} type="submit">Convert</button>
 		<p className={utilStyles.error}>ERROR</p>
-		<p>Invalid URL, conversion error or the file already exists and the link is already available</p>
+		<p>Conversion error or the link is already available</p>
 	    </form>
 	)}
 
@@ -85,7 +107,7 @@ function Form() {
 	      <label htmlFor="yt_link">Past yt link here: </label>
 	      <input id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
 	      <button className={utilStyles.button} type="submit">Convert</button>
-		<p className={utilStyles.load}>Loading... Please wait a few seconds...</p>
+		<p className={utilStyles.load}>Loading... Please wait a few seconds... 1 minute is a maximum.</p>
 	    </form>
 	)}
 }
@@ -98,7 +120,7 @@ export default function Home({ filesList }) {
         <title>{siteTitle}</title>
       </Head>
       <section className={utilStyles.title}>
-        <h2>Welcome to yt2mp3 Downloader</h2>
+        <h2>Welcome to yt2mp3 Downloader<br/><br/></h2>
 	  </section>
 
 	  <section className={utilStyles.section}>
