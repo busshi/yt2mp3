@@ -5,12 +5,13 @@ A simple web app using NextJS framework to download a mp3 from yt
 
 ### Usage:
 ```bash
-cd yt2mp3/app && npm run dev	# run localy on port 3000 in dev mode [link](http://localhost:3000)
+cd yt2mp3/app && npm run dev		# run localy on port 3000 in dev mode [link](http://localhost:3000)
 ```
 
 ```bash
-make build				# Build and run the [app](http://localhost:4242) inside a docker container
-make [build | detach | stopps | log]
+make dev				# Run the [app](http://localhost:3000) inside a docker container
+make prod				# Build for deploy, run the [app](http://localhost:4242) inside a docker container
+make stop				# Stop containers
 ```
 
 ### Note:

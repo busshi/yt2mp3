@@ -8,4 +8,4 @@ RUN			pip3 install youtube-dl
 
 WORKDIR		/usr/app
 
-ENTRYPOINT	[ "/bin/bash", "prod.sh" ]
+ENTRYPOINT [ "npm", "run", "dev" ]

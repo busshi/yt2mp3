@@ -1,17 +1,28 @@
 all:
-	docker-compose up
+	docker-compose -f docker-compose.dev.yaml up
 
-build:
-	docker-compose up --build
+dev:
+	docker-compose -f docker-compose.dev.yaml up --build -d
 
-detach:
-	docker-compose up -d
+prod:
+	docker-compose -f docker-compose.yaml up --build -d
 
 ps:
-	docker-compose ps
+	docker-compose -f docker-compose.dev.yaml ps
+	docker-compose -f docker-compose.yaml ps
 
 log:
-	docker-compose logs
+	docker-compose -f docker-compose.dev.yaml logs
+	docker-compose -f docker-compose.yaml logs
 
 stop:
-	docker-compose stop
+	docker-compose -f docker-compose.dev.yaml stop
+	docker-compose -f docker-compose.yaml stop
+
+stopDev:
+	docker-compose -f docker-compose.dev.yaml stop
+
+stopProd:
+	docker-compose -f docker-compose.yaml stop
+
+.PHONY: dev prod ps log stop
