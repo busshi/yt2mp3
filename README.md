@@ -13,4 +13,4 @@ A simple web app using NextJS framework to download a mp3 from yt
 yt3mp3.py need youtube_dl to work. You can install it with ```pip install youtube_dl```
 
 ### Linux/MacOS ARM users:
-You need to add the .babelrc file inside the /app folder in order to build the containers. If you are running on other systems, you can remove the .babelrc file to increase performance (17x using SWC)
+You need to keep the .babelrc file inside the /app folder in order to build the containers. If you are running on other systems, you can remove the .babelrc file to increase performance (17x using SWC)
