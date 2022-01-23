@@ -1,6 +1,3 @@
-all:
-	docker-compose -f docker-compose.dev.yaml up
-
 dev:
 	docker-compose -f docker-compose.dev.yaml up --build -d
 
