@@ -31,5 +31,6 @@ yarn-error.log*
 
 # Misc
 *.mp3
+*.part
 .venv
 get-pip.py
