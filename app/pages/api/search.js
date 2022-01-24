@@ -1,6 +1,7 @@
 export default function handler(req, res) {
 
 	const link = req.body.link;
+//	console.log(req.body);
 
 	const {spawn} = require('child_process');
 	const child = spawn('python3', ['scripts/yt2mp3.py', link]);

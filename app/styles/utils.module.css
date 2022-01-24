@@ -1,11 +1,11 @@
 .title {
 	text-align:center;
-	color: red;
+	color: orange;
 }
 
 .section {
 	text-align:center;
-	color: red;
+	color: orange;
 }
 
 .link {
@@ -33,6 +33,10 @@
 	transition: 1s;
 }
 
+.quality_btn {
+	color: white;
+}
+
 .hide {
 	display: none;
 }
@@ -46,7 +50,7 @@
 }
 
 .load {
-	color: blue;
+	color: white;
 }
 
 .wait {

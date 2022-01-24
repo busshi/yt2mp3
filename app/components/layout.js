@@ -13,6 +13,7 @@ export default function Layout({ children, home }) {
     <div className={styles.container}>
       <Head>
         <link rel="icon" href="/favicon.ico" />
+        <meta name="og:title" content={siteTitle} />
         <meta
           name="description"
           content="Download a mp3 from a youtube video"
@@ -23,11 +24,11 @@ export default function Layout({ children, home }) {
             siteTitle
           )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
         />
-        <meta name="og:title" content={siteTitle} />
       </Head>
       <header className={styles.header}>
         {home ? (
           <>
+            <h1>{name}</h1>
             <Image
               priority
               src={logo}
@@ -36,7 +37,6 @@ export default function Layout({ children, home }) {
               width={200}
               alt={name}
             />
-            <h1>{name}</h1>
           </>
         ) : (
           <>

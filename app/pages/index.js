@@ -14,13 +14,21 @@ export async function getServerSideProps() {
 }
 
 
-function Form( {actualList, setActualList}) {
+function Form( {actualList, setActualList} ) {
 	const [input, setInput] = useState({});
 	const [dl_url, setURL] = useState();
 	const [title, setTitle] = useState();
+	const [filename, setFilename] = useState();
+	const [quality, setQuality] = useState();
 	const [conversionState, setConversionState] = useState('waiting');
 	const [inputState, setInputState] = useState('waiting');
 
+	const qualityChange = (event) => {
+		const name = event.target.name;
+		const value = event.target.value;
+		setQuality(value);
+	}
+	
 	const handleChange = (event) => {
 		const name = event.target.name;
 		const value = event.target.value;
@@ -34,12 +42,13 @@ function Form( {actualList, setActualList}) {
 		setConversionState('waiting');
 	}
 	
-	let p, msg, button, input_form, dl_link;
+	let p, msg, button, input_form, quality_btn, dl_link;
 
   	const querySearch = async event => {
 		setConversionState('loading');
     	event.preventDefault();
 		const link = input.yt_link;
+		let quality_arg = quality;
 
 		const reqTitle = await fetch('/api/filename', {
 			method: 'POST',
@@ -51,11 +60,17 @@ function Form( {actualList, setActualList}) {
 
 		const resTitle = await reqTitle.json();
 		if (resTitle.state === 'found') {
-			const tmp = resTitle.title.replace(' (Clip Officiel)', '');
+			let tmp = resTitle.title.replace(' (Clip Officiel)', '');
 			setURL("yt/" + tmp + ".mp3");
-			setTitle(tmp + ".mp3");
+			setFilename(tmp + ".mp3");
+			setTitle(tmp);
+			setConversionState(resTitle.state);
 		}
-		
+	
+		if (!quality_arg) {
+			quality_arg = '320';
+		}
+
 		const req = await fetch('/api/search', {
     		method: 'POST',
     		headers: {
@@ -68,9 +83,20 @@ function Form( {actualList, setActualList}) {
 
 		const res = await req.json();
 		setConversionState(res.state);
-
-		if (res.state === 'converted')
+		if (res.state === 'converted') {
+			console.log(actualList);
 			setActualList([...actualList, {"id": title, "dlPath": dl_url, "filename": title}]);
+			console.log(actualList);
+		}
+	}
+
+	if (conversionState === 'found') {
+		p = 'load';
+		msg = 'Found! Converting now...';
+		button = 'hide';
+		quality_btn = 'hide';
+		input_form = 'valid_url';
+		dl_link = 'hide';
 	}
 
 	if (conversionState === 'waiting' && inputState === 'waiting') {
@@ -79,6 +105,7 @@ function Form( {actualList, setActualList}) {
 		button = 'hide';
 		input_form = 'waiting_url';
 		dl_link = 'hide';
+		quality_btn = 'hide';
 	}
 
 	if (conversionState === 'waiting' && inputState === 'valid') {
@@ -87,6 +114,7 @@ function Form( {actualList, setActualList}) {
 		button = 'button';
 		input_form = 'valid_url';
 		dl_link = 'hide';
+		quality_btn = 'quality_btn';
 	}
 
 	if (conversionState === 'waiting' && inputState === 'invalid') {
@@ -95,33 +123,33 @@ function Form( {actualList, setActualList}) {
 		button = 'hide';
 		input_form = 'invalid_url';
 		dl_link = 'hide';
+		quality_btn = 'hide';
 	}
 
 	if (conversionState === 'conversion error') {
 		p = 'error';
 		msg = 'Conversion error';
-		button = 'hide';
 		input_form = 'waiting_url';
 		dl_link = 'hide';
+		button = 'button';
+		quality_btn = 'quality_btn';
 	}
 
 	if (conversionState === 'converted')  {
 		p = 'success';
 		msg = 'CONVERTED!';
+		button = 'hide';
+		quality_btn = 'hide';
+		input_form = 'waiting_url';
 	}
 
 	if (conversionState === 'loading') {
 		p = 'load';
-		msg = 'Loading... Please wait a few seconds... 1 minute is a maximum.';
+		msg = 'Loading... Please wait a few seconds...';
 		button = 'hide';
 		input_form = 'valid_url';
 		dl_link = 'hide';
-	}
-
-	if (title && conversionState !== 'converted' && conversionState !== 'conversion error') {
-		p = 'load';
-		msg = 'Found! Converting now...';
-		button = 'hide';
+		quality_btn = 'hide';
 	}
 
 	return (
@@ -129,12 +157,19 @@ function Form( {actualList, setActualList}) {
 	      <label htmlFor="yt_link"></label>
 	      <input className={utilStyles[input_form]} id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} placeholder="PASTE YT LINK HERE" required/>
 		  <p className={utilStyles[p]}>{msg}</p>
+		  <p className={utilStyles[quality_btn]}> 
+		  	<select className={utilStyles[quality_btn]} onChange={qualityChange} name="quality">
+				<option>320</option>
+				<option>256</option>
+				<option>192</option>
+			  	<option>128</option>
+			  </select>
+		 	Kbps</p>
 	      <button className={utilStyles[button]} type="submit">Convert</button><br/><br/>
-		  <a className={utilStyles[dl_link]} href={dl_url}>DOWNLOAD HERE</a>
+		  <a className={utilStyles[dl_link]} href={dl_url}>{title}</a>
 	    </form>
 	)
 }
-
 
 export default function Home({ filesList }) {
   const [actualList, setActualList] = useState(filesList);
@@ -152,7 +187,7 @@ export default function Home({ filesList }) {
 	  </section>
 
       <section className={utilStyles.section}>
-        <h3><br/>Links still available:</h3>
+        <h3><br/>Links available:</h3>
         <ul className={utilStyles.link}>
           {actualList.map(({ id, dlPath, filename }) => (
             <li className={utilStyles.link} key={id}>

@@ -5,12 +5,10 @@ prod:
 	docker-compose -f docker-compose.yaml up --build -d
 
 ps:
-	docker-compose -f docker-compose.dev.yaml ps
-	docker-compose -f docker-compose.yaml ps
+	docker-compose ps
 
 log:
-	docker-compose -f docker-compose.dev.yaml logs
-	docker-compose -f docker-compose.yaml logs
+	docker-compose logs
 
 stop:
 	docker-compose -f docker-compose.dev.yaml stop

@@ -15,7 +15,7 @@ body {
 }
 
 a {
-  color: orange;
+  color: purple;
   text-decoration: none;
 }
 
@@ -26,4 +26,8 @@ a:hover {
 img {
   max-width: 100%;
   display: block;
+}
+
+h1 {
+	color: red;
 }
