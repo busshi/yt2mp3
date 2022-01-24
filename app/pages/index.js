@@ -17,6 +17,7 @@ export async function getServerSideProps() {
 function Form( {actualList, setActualList}) {
 	const [input, setInput] = useState({});
 	const [dl_url, setURL] = useState();
+	const [title, setTitle] = useState();
 	const [conversionState, setConversionState] = useState('waiting');
 	const [inputState, setInputState] = useState('waiting');
 
@@ -47,8 +48,14 @@ function Form( {actualList, setActualList}) {
 			},
 			body: JSON.stringify({link})
 		});
-		const resTitle = await reqTitle.json();
 
+		const resTitle = await reqTitle.json();
+		if (resTitle.state === 'found') {
+			const tmp = resTitle.title.replace(' (Clip Officiel)', '');
+			setURL("yt/" + tmp + ".mp3");
+			setTitle(tmp + ".mp3");
+		}
+		
 		const req = await fetch('/api/search', {
     		method: 'POST',
     		headers: {
@@ -62,53 +69,65 @@ function Form( {actualList, setActualList}) {
 		const res = await req.json();
 		setConversionState(res.state);
 
-		if (res.state === 'converted') {
-			setURL("yt/" + resTitle.title + ".mp3");
-			setActualList([...actualList, {"id": resTitle.title, "dlPath": "yt/" + resTitle.title + ".mp3", "filename": "Latest converted file"}]);
-		}
+		if (res.state === 'converted')
+			setActualList([...actualList, {"id": title, "dlPath": dl_url, "filename": title}]);
 	}
 
 	if (conversionState === 'waiting' && inputState === 'waiting') {
 		p = 'wait';
 		msg = 'waiting for conversion...';
 		button = 'hide';
-		dl_link = 'hide';}
+		input_form = 'waiting_url';
+		dl_link = 'hide';
+	}
 
 	if (conversionState === 'waiting' && inputState === 'valid') {
 		p = 'wait';
 		msg = '';
 		button = 'button';
 		input_form = 'valid_url';
-		dl_link = 'hide';}
+		dl_link = 'hide';
+	}
 
 	if (conversionState === 'waiting' && inputState === 'invalid') {
 		p = 'error';
 		msg = 'Invalid URL';
 		button = 'hide';
 		input_form = 'invalid_url';
-		dl_link = 'hide';}
+		dl_link = 'hide';
+	}
 
 	if (conversionState === 'conversion error') {
 		p = 'error';
 		msg = 'Conversion error';
 		button = 'hide';
-		dl_link = 'hide';}
+		input_form = 'waiting_url';
+		dl_link = 'hide';
+	}
 
 	if (conversionState === 'converted')  {
 		p = 'success';
-		msg = 'CONVERTED!';}
+		msg = 'CONVERTED!';
+	}
 
 	if (conversionState === 'loading') {
 		p = 'load';
 		msg = 'Loading... Please wait a few seconds... 1 minute is a maximum.';
 		button = 'hide';
 		input_form = 'valid_url';
-		dl_link = 'hide';}
+		dl_link = 'hide';
+	}
+
+	if (title && conversionState !== 'converted' && conversionState !== 'conversion error') {
+		p = 'load';
+		msg = 'Found! Converting now...';
+		button = 'hide';
+	}
 
 	return (
 	    <form onSubmit={querySearch}>
-	      <label htmlFor="yt_link">Paste yt link here: </label>
-	      <input className={utilStyles[input_form]} id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} required/>
+	      <label htmlFor="yt_link"></label>
+	      <input className={utilStyles[input_form]} id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} placeholder="PASTE YT LINK HERE" required/>
 		  <p className={utilStyles[p]}>{msg}</p>
 	      <button className={utilStyles[button]} type="submit">Convert</button><br/><br/>
 		  <a className={utilStyles[dl_link]} href={dl_url}>DOWNLOAD HERE</a>

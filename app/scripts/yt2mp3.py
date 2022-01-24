@@ -21,14 +21,14 @@ def move():
 	for file in files:
 		pos = file.rfind('-')
 		tmp = file[:pos] + file[-4:]
-#		newname = tmp.replace(" (Clip Officiel)", "")
-#		print ('[+] Renaming file ', file, ' -> ', newname)
-#		os.rename(file, newname)
-		os.rename(file, tmp)
-		print ('[+] Moving file ', tmp);
-		shutil.move(tmp, workdir + '/public/yt/')
-		#print ('[+] Moving file ', newname);
-		#shutil.move(newname, workdir + '/public/yt/')
+		newname = tmp.replace(" (Clip Officiel)", "")
+		print ('[+] Renaming file ', file, ' -> ', newname)
+		os.rename(file, newname)
+#		os.rename(file, tmp)
+#		print ('[+] Moving file ', tmp);
+#		shutil.move(tmp, workdir + '/public/yt/')
+		print ('[+] Moving file ', newname);
+		shutil.move(newname, workdir + '/public/yt/')
 
 
 if __name__ == "__main__":
