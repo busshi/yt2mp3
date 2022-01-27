@@ -1,10 +1,10 @@
 export default function handler(req, res) {
 
 	const link = req.body.link;
-//	console.log(req.body);
+	const quality = req.body.quality;
 
 	const {spawn} = require('child_process');
-	const child = spawn('python3', ['scripts/yt2mp3.py', link]);
+	const child = spawn('python3', ['scripts/yt2mp3.py', quality, link]);
 
 	child.stdout.on('data', function (data) {
 		console.log(data.toString());

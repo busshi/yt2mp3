@@ -1,8 +1,16 @@
 import Head from 'next/head'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import { dirListing } from '../lib/dirListing'
+
+/*const NoSsr = ({ children }) => {
+	const [mountedState, setMountedState] = useState(false);
+	useEffect(() => {
+		setMountedState(true);
+	}, []);
+	return <>{mountedState ? children : null}</>;
+}*/
 
 export async function getServerSideProps() {
   const filesList = dirListing()
@@ -13,8 +21,8 @@ export async function getServerSideProps() {
   }
 }
 
-
 function Form( {actualList, setActualList} ) {
+
 	const [input, setInput] = useState({});
 	const [dl_url, setURL] = useState();
 	const [title, setTitle] = useState();
@@ -58,12 +66,18 @@ function Form( {actualList, setActualList} ) {
 			body: JSON.stringify({link})
 		});
 
+		let newname, dl_path, dl_filename;
+		
 		const resTitle = await reqTitle.json();
 		if (resTitle.state === 'found') {
-			let tmp = resTitle.title.replace(' (Clip Officiel)', '');
-			setURL("yt/" + tmp + ".mp3");
-			setFilename(tmp + ".mp3");
-			setTitle(tmp);
+			newname = resTitle.title.replace(' (Clip Officiel)', '');
+			newname = newname.replace(' (Clip officiel)', '');
+			newname = newname.replace(' (HD)', '');
+			setURL("yt/" + newname + ".mp3");
+			dl_path = "yt/" + newname + ".mp3";
+			dl_filename = newname + ".mp3";
+			setFilename(newname + ".mp3");
+			setTitle(newname);
 			setConversionState(resTitle.state);
 		}
 	
@@ -78,16 +92,13 @@ function Form( {actualList, setActualList} ) {
     		},
     		redirect: 'follow',
     		referrerPolicy: 'no-referrer',
-    		body: JSON.stringify({link})
+    		body: JSON.stringify({link: link, "quality": quality_arg})
   		});
 
 		const res = await req.json();
 		setConversionState(res.state);
-		if (res.state === 'converted') {
-			console.log(actualList);
-			setActualList([...actualList, {"id": title, "dlPath": dl_url, "filename": title}]);
-			console.log(actualList);
-		}
+		if (res.state === 'converted')
+			setActualList([...actualList, {"id": newname, "dlPath": dl_path, "filename": newname}]);
 	}
 
 	if (conversionState === 'found') {
@@ -140,7 +151,7 @@ function Form( {actualList, setActualList} ) {
 		msg = 'CONVERTED!';
 		button = 'hide';
 		quality_btn = 'hide';
-		input_form = 'waiting_url';
+		input_form = 'waiting_url';		
 	}
 
 	if (conversionState === 'loading') {
