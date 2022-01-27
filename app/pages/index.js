@@ -3,15 +3,22 @@ import { useState, useEffect } from "react";
 import Layout, { siteTitle } from '../components/layout'
 import utilStyles from '../styles/utils.module.css'
 import { dirListing } from '../lib/dirListing'
+//import { useRouter } from 'next/router'
+import Link from 'next/link'
+import Image from 'next/image'
 
-/*const NoSsr = ({ children }) => {
+const NoSsr = ({ children }) => {
 	const [mountedState, setMountedState] = useState(false);
 	useEffect(() => {
 		setMountedState(true);
 	}, []);
 	return <>{mountedState ? children : null}</>;
-}*/
+}
 
+/*const refresh = () => {
+    router.replace(router.asPath);
+}
+*/
 export async function getServerSideProps() {
   const filesList = dirListing()
   return {
@@ -26,11 +33,15 @@ function Form( {actualList, setActualList} ) {
 	const [input, setInput] = useState({});
 	const [dl_url, setURL] = useState();
 	const [title, setTitle] = useState();
-	const [filename, setFilename] = useState();
+	const [thumb, setThumb] = useState();
 	const [quality, setQuality] = useState();
 	const [conversionState, setConversionState] = useState('waiting');
 	const [inputState, setInputState] = useState('waiting');
 
+/*	const resetForm = (event) => {
+		refresh();
+	}
+*/	
 	const qualityChange = (event) => {
 		const name = event.target.name;
 		const value = event.target.value;
@@ -70,6 +81,7 @@ function Form( {actualList, setActualList} ) {
 		if (resTitle.state === 'found') {
 			let newname = resTitle.title.replace(' (Clip Officiel)', '').replace(' (Clip officiel)', '').replace(' (HD)', '');
 			setURL("yt/" + newname + ".mp3");
+			setThumb("/thumb/" + newname + ".jpeg");
 			setTitle(newname);
 			setConversionState(resTitle.state);
 		}
@@ -100,8 +112,9 @@ function Form( {actualList, setActualList} ) {
 
 			const resList = await reqList.json();
 			setActualList([])
-			for (let i = 0; i < resList.length; i++)
-				setActualList([...actualList, {"id":resList[i] , "dl_path": "yt/" + resList[i], "filename": resList[i]}])
+			for (let i = 0; i < resList.length; i++) {
+				setActualList([...actualList, {"id":resList[i] , "dl_path": "yt/" + resList[i], "filename": resList[i], "thumbPath": "thumb/" + resList[i].replace('.mp3', '.jpeg')}])
+			}	
 		}
 	}
 	if (conversionState === 'found') {
@@ -154,7 +167,8 @@ function Form( {actualList, setActualList} ) {
 		msg = 'CONVERTED!';
 		button = 'hide';
 		quality_btn = 'hide';
-		input_form = 'waiting_url';		
+		input_form = 'valid_url';
+		dl_link = 'dl_ready';
 	}
 
 	if (conversionState === 'loading') {
@@ -167,6 +181,7 @@ function Form( {actualList, setActualList} ) {
 	}
 
 	return (
+		<>
 	    <form onSubmit={querySearch}>
 	      <label htmlFor="yt_link"></label>
 	      <input className={utilStyles[input_form]} id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} placeholder="PASTE YT LINK HERE" required/>
@@ -179,14 +194,19 @@ function Form( {actualList, setActualList} ) {
 			  	<option>128</option>
 			  </select>
 		 	Kbps</p>
-	      <button className={utilStyles[button]} type="submit">Convert</button><br/><br/>
+	      <button className={utilStyles[button]} type="submit">Convert</button><br/>
+	      <p className={utilStyles[dl_link]}>🔽 Click here to download 🔽</p>
 		  <a className={utilStyles[dl_link]} href={dl_url}>{title}</a>
 	    </form>
+		<br/>
+		</>
 	)
 }
 
 export default function Home({ filesList }) {
+
   const [actualList, setActualList] = useState(filesList);
+  
   return (
     <Layout home>
       <Head>
@@ -195,20 +215,25 @@ export default function Home({ filesList }) {
       <section className={utilStyles.title}>
         <h2>Welcome to yt2mp3 Downloader<br/><br/></h2>
 	  </section>
-
+	  <NoSsr>
 	  <section className={utilStyles.section}>
 		<Form actualList={actualList} setActualList={setActualList}/>
 	  </section>
-
+	  </NoSsr>
       <section className={utilStyles.section}>
-        <h3><br/>Links available:</h3>
-        <ul className={utilStyles.link}>
-          {actualList.map(({ id, dlPath, filename }) => (
-            <li className={utilStyles.link} key={id}>
-			<a href={dlPath}>{filename}</a>
-            </li>
-          ))}
-        </ul>
+		  <div className={utilStyles.center}>
+        	<h3><br/>Links available:</h3>
+        	<ul className={utilStyles.link}>
+          	{actualList.map(({ id, dlPath, filename, thumbPath }) => (
+            	<li className={utilStyles.card} key={id}>
+				<a href={dlPath}>
+					<img className={utilStyles.thumb} src={thumbPath} height="60%" width="60%"/>
+					<p>{filename}</p>
+				</a><br/>
+				</li>
+          	))}
+        	</ul>
+		</div>
       </section>
 
     </Layout>
