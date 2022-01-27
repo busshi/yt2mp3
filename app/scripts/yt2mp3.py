@@ -25,14 +25,11 @@ def move():
 	for file in files:
 		pos = file.rfind('-')
 		tmp = file[:pos] + file[-4:]
-		newname = tmp.replace(" (Clip Officiel)", "")
-		newname = newname.replace(" (Clip officiel)", "")
-		newname = newname.replace(" (HD)", "")
+		newname = tmp.replace(" (Clip Officiel)", "").replace(" (Clip officiel)", "").replace(" (HD)", "")
 		print ('[+] Renaming file ', file, ' -> ', newname)
 		pos2 = newname.rfind('/')
 		tmp2 = newname[pos2:]
 		print ('[+] Moving file ', newname, ' to /usr/app/public/yt')
-		print (tmp2)
 		os.rename(file, "/usr/app/public/yt" + tmp2)
 
 if __name__ == "__main__":

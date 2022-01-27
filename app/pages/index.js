@@ -66,17 +66,10 @@ function Form( {actualList, setActualList} ) {
 			body: JSON.stringify({link})
 		});
 
-		let newname, dl_path, dl_filename;
-		
 		const resTitle = await reqTitle.json();
 		if (resTitle.state === 'found') {
-			newname = resTitle.title.replace(' (Clip Officiel)', '');
-			newname = newname.replace(' (Clip officiel)', '');
-			newname = newname.replace(' (HD)', '');
+			let newname = resTitle.title.replace(' (Clip Officiel)', '').replace(' (Clip officiel)', '').replace(' (HD)', '');
 			setURL("yt/" + newname + ".mp3");
-			dl_path = "yt/" + newname + ".mp3";
-			dl_filename = newname + ".mp3";
-			setFilename(newname + ".mp3");
 			setTitle(newname);
 			setConversionState(resTitle.state);
 		}
@@ -97,16 +90,26 @@ function Form( {actualList, setActualList} ) {
 
 		const res = await req.json();
 		setConversionState(res.state);
-		if (res.state === 'converted')
-			setActualList([...actualList, {"id": newname, "dlPath": dl_path, "filename": newname}]);
-	}
+		if (res.state === 'converted') {
+			const reqList = await fetch('/api/list', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
 
+			const resList = await reqList.json();
+			setActualList([])
+			for (let i = 0; i < resList.length; i++)
+				setActualList([...actualList, {"id":resList[i] , "dl_path": "yt/" + resList[i], "filename": resList[i]}])
+		}
+	}
 	if (conversionState === 'found') {
 		p = 'load';
 		msg = 'Found! Converting now...';
 		button = 'hide';
 		quality_btn = 'hide';
-		input_form = 'valid_url';
+		input_form = 'locked_url';
 		dl_link = 'hide';
 	}
 
@@ -158,7 +161,7 @@ function Form( {actualList, setActualList} ) {
 		p = 'load';
 		msg = 'Loading... Please wait a few seconds...';
 		button = 'hide';
-		input_form = 'valid_url';
+		input_form = 'locked_url';
 		dl_link = 'hide';
 		quality_btn = 'hide';
 	}

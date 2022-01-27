@@ -73,6 +73,15 @@
 	font-size: large;
 }
 
+.locked_url {
+	background: rgba(100, 100, 100, 0.4);
+	width: 50%;
+	height: 50px;
+	text-align: center;
+	color: grey;
+	pointer-events: none;
+}
+
 .valid_url {
 	background: rgba(100, 255, 100, 0.4);
 	width: 50%;
