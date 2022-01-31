@@ -11,7 +11,6 @@ export function dirListing() {
 		const jpg = filename.replace(/\.mp3$/, '.jpeg')
 		const thumbPath = '/thumb/' + jpg;
 	
-		console.log(thumbPath)
 		return {
 			id,
 			dlPath,
