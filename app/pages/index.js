@@ -6,7 +6,7 @@ import { FaPhotoVideo } from 'react-icons/fa';
 import { MdSlowMotionVideo } from 'react-icons/md';
 import { RiVideoDownloadLine } from 'react-icons/ri';
 import { BiReset } from 'react-icons/bi';
-import { AiOutlineFileSearch } from 'react-icons/ai';
+import { FiSearch } from 'react-icons/fi';
 
 const NoSsr = ({ children }) => {
 	const [mountedState, setMountedState] = useState(false);
@@ -34,7 +34,6 @@ function Form( {actualList, setActualList, conversionState, setConversionState} 
 	const [inputState, setInputState] = useState('waiting');
 
 	const qualityChange = (event) => {
-	//	const name = event.target.name;
 		const value = event.target.value;
 		setQuality(value.substring(0,3));
 	}
@@ -141,7 +140,7 @@ function Form( {actualList, setActualList, conversionState, setConversionState} 
 		p = 'text-green-500 p-2 w-full md:max-w-[50%] border rounded-br-lg rounded-bl-lg';
 		msg = 'CONVERTED!';
 		input_form = 'text-black w-full md:max-w-[50%] text-center h-12';
-		dl_link = 'text-2xl text-orange-500 light:text-black hover:underline animate-pulse hover:animate-none pb-10  font-bold';
+		dl_link = 'text-center flex justify-center text-2xl text-orange-500 light:text-black hover:underline animate-pulse hover:animate-none pb-10 font-bold';
 	}
 
 	if (conversionState === 'loading') {
@@ -151,11 +150,20 @@ function Form( {actualList, setActualList, conversionState, setConversionState} 
 	}
 
 	return (
-		<div>
-	    <form className="text-center p-5 grid justify-items-center" onSubmit={querySearch}>
+		<>
+		<div className="p-5 flex justify-center">
+		<FiSearch className="text-5xl pt-3" />
+		</div>
+	    <form className="text-center" onSubmit={querySearch}>
 	      <label htmlFor="yt_link"></label>
-		  <input className={input_form} id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} placeholder="PASTE YT LINK HERE" required/>
-		  <p className={p}>{msg}</p>
+		  <div className="flex justify-center">
+ 				<input
+					 className={input_form} id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} placeholder="PASTE YT LINK HERE" required
+ 				/>
+ 		 </div>
+		 <div className="flex justify-center">
+		 	<p className={p}>{msg}</p>
+		  </div>
 		  <select className={quality_btn} onChange={qualityChange} name="quality">
 				<option>320 Kbps</option>
 				<option>256 Kbps</option>
@@ -167,7 +175,7 @@ function Form( {actualList, setActualList, conversionState, setConversionState} 
 		</form>
 		<a className={dl_link} href={dl_url}>{title}</a>
 		{ (conversionState === 'converted' || conversionState === 'conversion error') ? <div className="grid justify-items-center"><a href="/"><BiReset className="text-7xl animate-spin"/></a></div> : <></> }
-	    </div>
+		</>
 	)
 }
 
@@ -199,7 +207,7 @@ export default function Home({ filesList }) {
 	  </section>
 	  </NoSsr>
       <section>
-		    <ul className="place-content-center place-items-stretch align-items-stretch grid md:grid-cols-2 lg:flex gap-10 text-center p-10">
+		    <ul className="place-items-stretch grid md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-7 gap-10 text-center p-10">
           	{actualList.map(({ id, dlPath, filename, thumbPath }) => (
             	<li className="text-black hover:text-orange-500 justity-items-center p-5 bg-orange-500 border rounded-lg  border-white hover:border-orange-500 hover:bg-black transition transform hover:-translate-y-2 light:bg-white  light:border-orange-500 light:hover:border-white light:hover:bg-orange-500 light:hover:text-white" key={id}>
 				<a className="hover:underline" href={dlPath}>
