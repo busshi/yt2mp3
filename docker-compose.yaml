@@ -4,7 +4,9 @@ services:
   nextjs:
     image: yt2mp3_prod
     container_name: yt2mp3_prod
-    build: ./
+    build: 
+      context: ./
+      dockerfile: Dockerfile
     volumes:
       - ./app:/usr/app
     ports:
