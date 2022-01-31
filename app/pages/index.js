@@ -6,6 +6,7 @@ import { FaPhotoVideo } from 'react-icons/fa';
 import { MdSlowMotionVideo } from 'react-icons/md';
 import { RiVideoDownloadLine } from 'react-icons/ri';
 import { BiReset } from 'react-icons/bi';
+import { AiOutlineFileSearch } from 'react-icons/ai';
 
 const NoSsr = ({ children }) => {
 	const [mountedState, setMountedState] = useState(false);
@@ -107,54 +108,53 @@ function Form( {actualList, setActualList, conversionState, setConversionState} 
 		}
 	}
 	if (conversionState === 'found') {
-		p = 'p-5 text-white animate-pulse';
+		p = 'p-2 w-full md:max-w-[50%] text-white border rounded-br-lg rounded-bl-lg animate-pulse';
 		msg = 'Found! Converting now...';
 		input_form = 'text-center w-full md:max-w-[50%] bg-green-500 text-gray-500 pointer-events-none h-12';
 	}
 
 	if (conversionState === 'waiting' && inputState === 'waiting') {
-		p = 'p-5 text-white';
-		msg = 'waiting for conversion...';
+		p = 'invisible ease-in duration-300';
 		input_form = 'w-full md:max-w-[50%] text-center h-12';
 	}
 
 	if (conversionState === 'waiting' && inputState === 'valid') {
-		p = 'invisible';
+		p = 'invisible ease-in duration-300';
 		button = 'text-xl text-white bg-red-500 rounded-xl w-1/3 hover:text-red-500 hover:bg-white hover:w-1/2 ease-out duration-200';
 		input_form = 'bg-green-500 w-full md:max-w-[50%] text-center h-12';
 		quality_btn = 'text-color-white bg-black m-10 px-5 border rounded';
 	}
 
 	if (conversionState === 'waiting' && inputState === 'invalid') {
-		p = 'p-5 text-red-500';
+		p = 'text-red-500 p-2 w-full md:max-w-[50%] border rounded-br-lg rounded-bl-lg ease-in duration-300';
 		msg = 'Invalid URL';
 		input_form = 'bg-red-500 w-full md:max-w-[50%] text-center h-12';
 	}
 
 	if (conversionState === 'conversion error') {
-		p = 'p-5 text-red-500 text-2xl';
+		p = 'text-red-500 p-2 w-full md:max-w-[50%] border rounded-br-lg rounded-bl-lg';
 		msg = 'Conversion error';
 		input_form = 'text-black w-full md:max-w-[50%] text-center h-12';
 	}
 
 	if (conversionState === 'converted')  {
-		p = 'p-5 text-green-500 text-2xl';
+		p = 'text-green-500 p-2 w-full md:max-w-[50%] border rounded-br-lg rounded-bl-lg';
 		msg = 'CONVERTED!';
 		input_form = 'text-black w-full md:max-w-[50%] text-center h-12';
-		dl_link = 'text-2xl text-orange-300 hover:underline animate-pulse hover:animate-none';
+		dl_link = 'text-2xl text-orange-500 light:text-black hover:underline animate-pulse hover:animate-none pb-10  font-bold';
 	}
 
 	if (conversionState === 'loading') {
-		p = 'p-5 text-white';
+		p = 'text-white p-2 w-full md:max-w-[50%] border rounded-br-lg rounded-bl-lg ease-in duration-300';
 		msg = 'Loading... Please wait a few seconds...';
 		input_form = 'text-black bg-gray-500 w-full md:max-w-[50%] text-center pointer-events-none h-12';
 	}
 
 	return (
-		<>
-	    <form className="text-center justify-center p-5" onSubmit={querySearch}>
+		<div>
+	    <form className="text-center p-5 grid justify-items-center" onSubmit={querySearch}>
 	      <label htmlFor="yt_link"></label>
-	      <input className={input_form} id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} placeholder="PASTE YT LINK HERE" required/>
+		  <input className={input_form} id="yt_link" name="yt_link" type="text" value={input.yt_link || ""} onChange={handleChange} placeholder="PASTE YT LINK HERE" required/>
 		  <p className={p}>{msg}</p>
 		  <select className={quality_btn} onChange={qualityChange} name="quality">
 				<option>320 Kbps</option>
@@ -162,12 +162,12 @@ function Form( {actualList, setActualList, conversionState, setConversionState} 
 				<option>192 Kbps</option>
 			  	<option>128 Kbps</option>
 		  </select>
-		  { (conversionState === 'converted' || conversionState === 'conversion error') ? <div className="grid justify-items-center"><a href="/"><BiReset className="text-7xl animate-spin"/></a></div> : <></> }
 	      <br/>
 		  <button className={button} type="submit">Convert</button><br/>
-		  <a className={dl_link} href={dl_url}>{title}</a>
-	    </form>
-		</>
+		</form>
+		<a className={dl_link} href={dl_url}>{title}</a>
+		{ (conversionState === 'converted' || conversionState === 'conversion error') ? <div className="grid justify-items-center"><a href="/"><BiReset className="text-7xl animate-spin"/></a></div> : <></> }
+	    </div>
 	)
 }
 
@@ -198,10 +198,10 @@ export default function Home({ filesList }) {
 		<Form actualList={actualList} setActualList={setActualList} conversionState={conversionState} setConversionState={setConversionState}/>
 	  </section>
 	  </NoSsr>
-      <section>	
-	    	<ul className="place-content-center place-items-stretch align-items-stretch grid md:grid-cols-2 lg:flex gap-10 text-center p-10">
+      <section>
+		    <ul className="place-content-center place-items-stretch align-items-stretch grid md:grid-cols-2 lg:flex gap-10 text-center p-10">
           	{actualList.map(({ id, dlPath, filename, thumbPath }) => (
-            	<li className="text-black hover:text-orange-500 justity-items-center p-5 bg-orange-500 border rounded-lg  border-white hover:border-orange-500 hover:bg-black transition transform hover:-translate-y-2 " key={id}>
+            	<li className="text-black hover:text-orange-500 justity-items-center p-5 bg-orange-500 border rounded-lg  border-white hover:border-orange-500 hover:bg-black transition transform hover:-translate-y-2 light:bg-white  light:border-orange-500 light:hover:border-white light:hover:bg-orange-500 light:hover:text-white" key={id}>
 				<a className="hover:underline" href={dlPath}>
 					<img className="justify-content-center" src={thumbPath} height="100%" width="100%"/>
 					<p className="pt-5">{filename}</p>
