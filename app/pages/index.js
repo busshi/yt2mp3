@@ -42,7 +42,7 @@ function Form( {actualList, setActualList, conversionState, setConversionState} 
 		const name = event.target.name;
 		const value = event.target.value;
 		setInput( values => ({...values, [name]: value}));
-		if (value.startsWith("https://www.youtube.com/watch?v=") || value.startsWith("https://m.youtube.com/watch?v="))
+		if (value.startsWith("https://www.youtube.com/watch?v=") || value.startsWith("https://m.youtube.com/watch?v=") || value.startsWith("https://youtu.be/"))
 			setInputState('valid');
 		else if (!value)
 			setInputState('waiting');
