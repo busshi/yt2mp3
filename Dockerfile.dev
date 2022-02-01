@@ -8,6 +8,8 @@ RUN			pip3 install youtube-dl
 
 WORKDIR		/usr/app
 
+RUN			mkdir /usr/app/public/yt
+
 CMD			npm install
 
 ENTRYPOINT [ "npm", "run", "dev" ]
