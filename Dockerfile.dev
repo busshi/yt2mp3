@@ -14,4 +14,6 @@ WORKDIR		/home/yt2mp3
 
 COPY		app/ .
 
+RUN			chown -R yt2mp3:yt2mp3 /home/yt2mp3/app
+
 ENTRYPOINT [ "/bin/sh", "dev.sh" ]
