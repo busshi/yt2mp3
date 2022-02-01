@@ -8,6 +8,4 @@ RUN			pip3 install youtube-dl
 
 WORKDIR		/usr/app
 
-RUN			mkdir -p /usr/app/public/yt
-
 ENTRYPOINT [ "/bin/sh", "dev.sh" ]
