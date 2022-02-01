@@ -1,8 +1,9 @@
 #!/bin/sh
 
-mkdir -p /usr/app/public/yt
+mkdir -p /home/yt2mp3/public/yt
+mkdir -p /home/yt2mp3/public/thumb
 
-cd /usr/app
+cd /home/yt2mp3/
 
 npm install
 
