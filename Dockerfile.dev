@@ -8,7 +8,7 @@ RUN			pip3 install youtube-dl
 
 WORKDIR		/usr/app
 
-RUN			mkdir -R /usr/app/public/yt
+RUN			mkdir -p /usr/app/public/yt
 
 CMD			npm install
 
