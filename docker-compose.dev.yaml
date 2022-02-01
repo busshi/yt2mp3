@@ -10,5 +10,5 @@ services:
     volumes:
       - ./app:/usr/app
     ports:
-      - 3000:3000
+      - 4242:4242
     restart: always
