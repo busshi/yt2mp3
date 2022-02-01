@@ -10,10 +10,6 @@ USER		yt2mp3
 
 RUN			pip3 install youtube-dl
 
-WORKDIR		/home/yt2mp3
-
-COPY		app/ .
-
-RUN			chown -R yt2mp3:yt2mp3 /home/yt2mp3/app
+WORKDIR		/usr/app
 
 ENTRYPOINT [ "/bin/sh", "dev.sh" ]
