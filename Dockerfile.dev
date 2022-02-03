@@ -4,9 +4,13 @@ RUN			apt update && apt install -y ffmpeg
 
 RUN			wget https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py && python3 /tmp/get-pip.py
 
-RUN 		useradd -d /home/yt2mp3 -m -s /bin/bash yt2mp3
+#RUN 		useradd -d /home/yt2mp3 -m -s /bin/bash yt2mp3
 
-USER		yt2mp3
+#USER		yt2mp3
+
+#COPY		app/ /home/yt2mp3
+
+#WORKDIR		/home/yt2mp3/
 
 RUN			pip3 install youtube-dl
 

@@ -1,5 +1,5 @@
 all:
-	docker-compose -f focker-compose.dev.yaml up -d
+	docker-compose -f docker-compose.dev.yaml up -d
 
 dev:
 	docker-compose -f docker-compose.dev.yaml up --build
