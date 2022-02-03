@@ -1,5 +1,8 @@
 version: '3'
 
+#networks:
+ # traefik_network:
+
 services:
   nextjs:
     image: yt2mp3_dev
@@ -12,3 +15,18 @@ services:
     ports:
       - 4242:4242
     restart: always
+#    networks:
+ #     - traefik_network
+#    labels:
+ #     - "traefik.enable=true"
+  #    - "traefik.docker.network=traefik_network"
+   #   - "traefik.http.routers.play.entrypoints=web,websecure"
+    #  - "traefik.http.routers.play.rule=Host(`play.busshi.fr`)"
+     # - "traefik.http.services.play.loadbalancer.server.port=4242"
+      #- "traefik.http.routers.play.tls=true"
+      #- "traefik.http.routers.play.tls.certresolver=leresolver"
+
+#networks:
+ # traefik_network:
+  #  external: true
+
