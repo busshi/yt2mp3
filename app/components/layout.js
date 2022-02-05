@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import Link from 'next/link'
 
 const name = 'yt2mp3'
 const logo = '/images/logo.png'
