@@ -207,12 +207,12 @@ export default function Home({ filesList }) {
 	  </section>
 	  </NoSsr>
       <section>
-		    <ul className="place-items-stretch grid md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-7 gap-10 text-center p-10">
+		    <ul className="place-items-stretch grid md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-10 text-center p-10">
           	{actualList.map(({ id, dlPath, filename, thumbPath }) => (
             	<li className="text-black hover:text-orange-500 justity-items-center p-5 bg-orange-500 border rounded-lg  border-white hover:border-orange-500 hover:bg-black transition transform hover:-translate-y-2 light:bg-white  light:border-orange-500 light:hover:border-white light:hover:bg-orange-500 light:hover:text-white" key={id}>
 				<a className="hover:underline" href={dlPath}>
 					<img className="justify-content-center" src={thumbPath} height="100%" width="100%"/>
-					<p className="pt-5">{filename}</p>
+					<p className="pt-5 place-content-evenly">{filename}</p>
 				</a>
 				</li>
           	))}
