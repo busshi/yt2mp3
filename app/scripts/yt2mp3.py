@@ -55,7 +55,7 @@ def move(thumb_url, title):
 	for file in files:
                 pos = file.rfind('-')
                 tmp = file[:pos] + file[-4:]
-                newname = tmp.replace(" (Clip Officiel)", "").replace(" (Clip officiel)", "").replace(" (Official Music Video)", "").replace(" (HD)", "").replace(" (HQ)", "").replace("HQ", "").replace(" (Son Officiel)", "").replace("Feat.", "ft.").replace("feat.", "ft.").replace("Ft.", "ft.")
+                newname = tmp.replace(" (Official Audio)", "").replace(" (Clip Officiel)", "").replace(" (Clip officiel)", "").replace(" (Official Music Video)", "").replace(" (HD)", "").replace(" (HQ)", "").replace("HQ", "").replace(" (Son Officiel)", "").replace("Feat.", "ft.").replace("feat.", "ft.").replace("Ft.", "ft.")
                 print ('[+] Renaming file ', file, ' -> ', newname)
                 pos2 = newname.rfind('/')
                 tmp2 = newname[pos2:]

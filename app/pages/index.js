@@ -69,7 +69,7 @@ function Form( {actualList, setActualList, conversionState, setConversionState} 
 
 		const resTitle = await reqTitle.json();
 		if (resTitle.state === 'found') {
-			let newname = resTitle.title.replace(" (Clip Officiel)", "").replace(" (Clip officiel)", "").replace(" (Official Music Video)", "").replace(" (HD)", "").replace(" (HQ)", "").replace("HQ", "").replace(" (Son Officiel)", "").replace("Feat.", "ft.").replace("feat.", "ft.").replace("Ft.", "ft.");
+			let newname = resTitle.title.replace(" (Official Audio)", "").replace(" (Clip Officiel)", "").replace(" (Clip officiel)", "").replace(" (Official Music Video)", "").replace(" (HD)", "").replace(" (HQ)", "").replace("HQ", "").replace(" (Son Officiel)", "").replace("Feat.", "ft.").replace("feat.", "ft.").replace("Ft.", "ft.");
 			setURL("yt/" + newname + ".mp3");
 			setTitle(newname);
 			setConversionState(resTitle.state);
