@@ -5,8 +5,8 @@ version: '3'
 
 services:
   nextjs:
-    image: yt2mp3_dev
-    container_name: yt2mp3_dev
+    image: yt2mp3
+    container_name: yt2mp3
     build:
       context: ./
       dockerfile: Dockerfile.dev
