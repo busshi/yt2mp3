@@ -23,4 +23,6 @@ stopDev:
 stopProd:
 	docker-compose -f docker-compose.yaml stop
 
-.PHONY: dev prod ps log stop
+re:	stop dev
+
+.PHONY: dev prod ps log stop re
