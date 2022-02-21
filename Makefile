@@ -1,11 +1,11 @@
 all:
-	docker-compose -f docker-compose.dev.yaml up -d
+	docker-compose up -d
 
-dev:
-	docker-compose -f docker-compose.dev.yaml up --build
+v:
+	docker-compose up
 
-prod:
-	docker-compose -f docker-compose.yaml up --build -d
+build:
+	docker-compose up --build
 
 ps:
 	docker-compose ps
@@ -14,15 +14,8 @@ log:
 	docker-compose logs
 
 stop:
-	docker-compose -f docker-compose.dev.yaml stop
-	docker-compose -f docker-compose.yaml stop
+	docker-compose stop
 
-stopDev:
-	docker-compose -f docker-compose.dev.yaml stop
+re:	stop build
 
-stopProd:
-	docker-compose -f docker-compose.yaml stop
-
-re:	stop dev
-
-.PHONY: dev prod ps log stop re
+.PHONY: v build ps log stop re
