@@ -14,7 +14,7 @@ jobs:
             name: Push image to docker hub
             command: |
               echo "$DOCKERHUB_API_KEY" | docker login --username $DOCKERHUB_LOGIN --password-stdin
-              docker push yt2mp3:latest
+              sudo docker push yt2mp3:latest
 
 workflows:
     version: 2
