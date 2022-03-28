@@ -9,7 +9,7 @@ jobs:
         - run:
             name: Build yt2mp3
             command: |
-              docker build ./app -t yt2mp3
+              docker build ./app -t busshi/yt2mp3
         - run:
             name: Push image to docker hub
             command: |
