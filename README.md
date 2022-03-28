@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/busshi/yt2mp3/tree/master.svg?style=svg)](https://circleci.com/gh/busshi/yt2mp3/tree/master)
+
 # yt2mp3
 
 ### Description:
