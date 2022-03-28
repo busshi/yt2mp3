@@ -3,6 +3,7 @@ version: '3'
 services:
   nextjs:
     image: yt2mp3
+#    image: busshi/yt2mp3:latest
     container_name: yt2mp3
     build:
       context: ./
