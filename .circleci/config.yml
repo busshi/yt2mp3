@@ -9,12 +9,12 @@ jobs:
         - run:
             name: Build yt2mp3
             command: |
-              docker build . -t yt2mp3
+              docker build . -t busshi/yt2mp3
         - run:
             name: Push image to docker hub
             command: |
               echo "$DOCKERHUB_API_KEY" | docker login --username $DOCKERHUB_LOGIN --password-stdin
-              sudo docker push busshi/yt2mp3:latest
+              docker push busshi/yt2mp3:latest
 
 workflows:
     version: 2
