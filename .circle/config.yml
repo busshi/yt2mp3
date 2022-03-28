@@ -1,0 +1,27 @@
+version: 2
+
+jobs:
+    build:
+      machine: true
+      resource_class: arm.medium
+      steps:
+        - checkout
+        - run:
+            name: Build yt2mp3
+            command: |
+              docker build ./app -t busshi/ytmp3
+        - run:
+            name: Push image to docker hub
+            command: |
+              echo "$DOCKERHUB_API_KEY" | docker login --username $DOCKERHUB_LOGIN --password-stdin
+              docker push busshi/yt2mp3:latest
+
+workflows:
+    version: 2
+    build:
+      jobs:
+        - build:
+            filters:
+              branches:
+                only:
+                - master

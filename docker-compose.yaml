@@ -10,5 +10,5 @@ services:
     volumes:
       - ./app:/usr/app
     ports:
-      - 4242:4242
+      - 80:80
     restart: unless-stopped
