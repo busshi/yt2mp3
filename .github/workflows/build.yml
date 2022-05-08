@@ -6,6 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     name: build and push to dockerhub
     steps:
+      - name: Clone app
+        uses: actions/checkout@v2
+ 
       - name: Build yt2mp3 image
         run: |
           docker build ./src -t busshi/yt2mp3
