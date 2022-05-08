@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Build yt2mp3 image
         run: |
-          docker build . -t busshi/yt2mp3
+          docker build -t busshi/yt2mp3
 
       - name: Push image to Dockerhub
         run: |
