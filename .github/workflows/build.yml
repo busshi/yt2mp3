@@ -1,0 +1,19 @@
+name: build
+on: [push, pull_request]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: build and push to dockerhub
+    steps:
+      - name: Build yt2mp3 image
+        run: |
+          docker build -t . busshi/yt2mp3
+
+      - name: Push image to Dockerhub
+        run: |
+		 echo "$DOCKERHUB_API_KEY" | docker login --username $DOCKERHUB_LOGIN --password-stdin
+         docker push busshi/yt2mp3:latest
+        env:
+          DOCKERHUB_API_KEY: ${{ secrets.DOCKERHUB_API_KEY }}
+          DOCKERHUB_LOGIN: ${{ secrets.DOCKERHUB_LOGIN }}
