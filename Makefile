@@ -1,20 +1,22 @@
+CMD	= docker-compose -f src/docker-compose.yaml
+
 all:
-	docker-compose up -d
+	$(CMD) up -d
 
 v:
-	docker-compose up
+	$(CMD) up
 
 build:
-	docker-compose up --build
+	$(CMD) --build
 
 ps:
-	docker-compose ps
+	$(CMD) ps
 
 log:
-	docker-compose logs
+	$(CMD) logs
 
 stop:
-	docker-compose stop
+	$(CMD) stop
 
 re:	stop build
 
