@@ -12,7 +12,7 @@ jobs:
 
       - name: Push image to Dockerhub
         run: |
-		 echo "$DOCKERHUB_API_KEY" | docker login --username $DOCKERHUB_LOGIN --password-stdin
+         echo "$DOCKERHUB_API_KEY" | docker login --username $DOCKERHUB_LOGIN --password-stdin
          docker push busshi/yt2mp3:latest
         env:
           DOCKERHUB_API_KEY: ${{ secrets.DOCKERHUB_API_KEY }}
