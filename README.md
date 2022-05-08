@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/busshi/yt2mp3/tree/master.svg?style=shield)](https://circleci.com/gh/busshi/yt2mp3/tree/master)
+![build](https://github.com/busshi/yt2mp3/actions/workflows/build.yml/badge.svg)
 
 # yt2mp3
 
